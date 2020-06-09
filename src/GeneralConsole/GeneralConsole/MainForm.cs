@@ -57,14 +57,14 @@ namespace GeneralConsole
                 string tempName = "test.png";
                 var stopWatch = new Stopwatch();
 
-                stopWatch.Start();
                 var context = Gdk.CairoHelper.Create(Gdk.Screen.Default.RootWindow);
                 var surface = context.GetTarget();
+                stopWatch.Start();
                 surface.WriteToPng(tempName);
+                stopWatch.Stop();
+                Console.WriteLine($"spend {stopWatch.Elapsed.TotalMilliseconds}ms");
                 context.Dispose();
                 surface.Dispose();
-                stopWatch.Stop();
-                Console.WriteLine("spend {0}ms", stopWatch.Elapsed.TotalMilliseconds);
 
                 if (Configure.GetInstance().IsServer == 0)
                 {
@@ -101,15 +101,15 @@ namespace GeneralConsole
             // foreach (var item in TcpChatServer.Program.blockingCollection.GetConsumingEnumerable())
             {
                 byte[] item;
-                    if (TcpChatServer.Program.blockingCollection.TryTake(out item))
-                    {
-                        File.WriteAllBytes("test2.png", item);
-                        var pixbuf = new Pixbuf(item);
-                        image.Pixbuf.Dispose();
-                        image.Pixbuf = pixbuf.ScaleSimple(600, 300, InterpType.Bilinear);
-                        pixbuf.Dispose();
-                    }
+                if (TcpChatServer.Program.blockingCollection.TryTake(out item))
+                {
+                    File.WriteAllBytes("test2.png", item);
+                    var pixbuf = new Pixbuf(item);
+                    image.Pixbuf.Dispose();
+                    image.Pixbuf = pixbuf.ScaleSimple(600, 300, InterpType.Bilinear);
+                    pixbuf.Dispose();
                 }
+            }
             return true;
         }
         static void init_toolbar(HBox toolbar)

@@ -16,3 +16,5 @@ GeneralConsole使用说明
 GeneralConsole //默认读取config.json
 GeneralConsole client.json//读取client.json启动客户端
 GeneralConsole server.json//读取server.json启动服务器
+3.Gtk+3.0样式表文件格式
+https://developer.gnome.org/gtk3/stable/chap-css-overview.html

@@ -14,8 +14,8 @@ namespace GeneralConsole
             //新建窗体，标题是Hello World
             var win = new Gtk.Window("Hello World");
 
-            win.SetDefaultSize(600, 600);
-            //win.SetSizeRequest(600, 600);
+            win.SetDefaultSize(800, 600);
+            //win.SetSizeRequest(800, 600);
 
             //窗体关闭后退出应用
             win.DeleteEvent += (s, e) =>
@@ -48,6 +48,23 @@ namespace GeneralConsole
                 TcpChatClient.Program.Start(new string[] { Configure.GetInstance().Host, Configure.GetInstance().Port.ToString() });
             }
             Gtk.Application.Init();//初始化
+            
+            // Load the Theme
+            var css_provider = new Gtk.CssProvider();
+            //css_provider.LoadFromPath("themes/DeLorean-3.14/gtk-3.0/gtk.css")
+            //css_provider.LoadFromPath("themes/DeLorean-Dark-3.14/gtk-3.0/gtk.css");
+            css_provider.LoadFromData("#myWindow,button,treeview {" +
+                "background-image: url('bg.jpg');" +
+                "background-repeat: no-repeat;" +
+                "background-position: left bottom;" +
+                "}" +
+                "#myWindow,button,treeview {"+
+  "background-image: radial-gradient(ellipse at center, yellow 0%, green 100%);"+
+"}"+
+                "label0 {" +
+                "background-image: radial-gradient(circle farthest-side at left bottom, red, yellow 50px, green);" +
+                "}");
+            Gtk.StyleContext.AddProviderForScreen(Gdk.Screen.Default, css_provider, 800);
             /*using (ImageSurface draw = new ImageSurface(Format.Argb32, 70, 150))
             {
                 using (Cairo.Context gr = new Cairo.Context(draw))
@@ -141,6 +158,7 @@ namespace GeneralConsole
             }*/
 
             var win = init_window();
+            win.Name = "myWindow";
             //将标签加入到窗体
             win.Add(MainForm.init_main_form());
 
