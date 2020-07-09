@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using GeneralConsole;
 using NetCoreServer;
 
 namespace TcpChatServer
@@ -115,6 +115,8 @@ namespace TcpChatServer
             string message = System.Text.Encoding.UTF8.GetString(buffer, (int)offset, (int)size);
             Console.WriteLine("Incoming: " + message);
 
+            Program.chatMsgCollection.Add(SerializeUtilities.ChatMsgDeserializer(message));
+
             // Multicast message to all connected sessions
             Server.Multicast(message);
 
@@ -145,6 +147,7 @@ namespace TcpChatServer
 
     class Program
     {
+        public static BlockingCollection<ChatMsg> chatMsgCollection = new BlockingCollection<ChatMsg>();
         public static BlockingCollection<byte[]> blockingCollection = new BlockingCollection<byte[]>();
         public static ConcurrentQueue<byte[]> concurrentQueue = new ConcurrentQueue<byte[]>();
         public static ChatServer chatServer = null;

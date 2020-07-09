@@ -1,9 +1,5 @@
-﻿using Cairo;
-using Gdk;
-using Gtk;
-using Pango;
+﻿using Gtk;
 using System;
-using System.Diagnostics;
 
 namespace GeneralConsole
 {
@@ -58,9 +54,9 @@ namespace GeneralConsole
                 "background-repeat: no-repeat;" +
                 "background-position: left bottom;" +
                 "}" +
-                "#myWindow,button,treeview {"+
-  "background-image: radial-gradient(ellipse at center, yellow 0%, green 100%);"+
-"}"+
+                "#myWindow,button,treeview {" +
+                "background-image: radial-gradient(ellipse at center, yellow 0%, green 100%);" +
+                "}" +
                 "label0 {" +
                 "background-image: radial-gradient(circle farthest-side at left bottom, red, yellow 50px, green);" +
                 "}");
@@ -156,7 +152,7 @@ namespace GeneralConsole
                 context.Save();
                 imageSurface.WriteToPng("aa.png");
             }*/
-
+            
             var win = init_window();
             win.Name = "myWindow";
             //将标签加入到窗体

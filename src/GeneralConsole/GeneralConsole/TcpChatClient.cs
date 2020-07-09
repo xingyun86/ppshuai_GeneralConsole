@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using GeneralConsole;
 using TcpClient = NetCoreServer.TcpClient;
 
 namespace TcpChatClient
@@ -42,6 +44,7 @@ namespace TcpChatClient
         protected override void OnReceived(byte[] buffer, long offset, long size)
         {
             Console.WriteLine(Encoding.UTF8.GetString(buffer, (int)offset, (int)size));
+            Program.chatMsgCollection.Add(SerializeUtilities.ChatMsgDeserializer(Encoding.UTF8.GetString(buffer, (int)offset, (int)size)));
         }
 
         protected override void OnError(SocketError error)
@@ -54,6 +57,7 @@ namespace TcpChatClient
 
     class Program
     {
+        public static BlockingCollection<ChatMsg> chatMsgCollection = new BlockingCollection<ChatMsg>();
         public static ChatClient chatClient = null;
         public static void TcpChatMain(string[] args)
         {
