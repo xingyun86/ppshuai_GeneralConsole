@@ -39,12 +39,20 @@ namespace GeneralConsole
         /// </summary>
         /// <param name="chatMsg"></param>
         /// <returns></returns>
-        public static ChatMsg ChatMsgDeserializer(string chatMsg)
+        public static bool ChatMsgDeserializer(out ChatMsg model, string chatMsg)
         {
-            var ms = new MemoryStream(System.Text.Encoding.Unicode.GetBytes(chatMsg));
-            DataContractJsonSerializer deseralizer = new DataContractJsonSerializer(typeof(ChatMsg));
-            ChatMsg model = (ChatMsg)deseralizer.ReadObject(ms);
-            return model;
+            try
+            {
+                var ms = new MemoryStream(System.Text.Encoding.Unicode.GetBytes(chatMsg));
+                DataContractJsonSerializer deseralizer = new DataContractJsonSerializer(typeof(ChatMsg));
+                model = (ChatMsg)deseralizer.ReadObject(ms);
+            }
+            catch(System.Exception e)
+            {
+                model = null;
+                return false;
+            }
+            return true;
         }
     }
 }

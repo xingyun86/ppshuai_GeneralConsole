@@ -44,7 +44,11 @@ namespace TcpChatClient
         protected override void OnReceived(byte[] buffer, long offset, long size)
         {
             Console.WriteLine(Encoding.UTF8.GetString(buffer, (int)offset, (int)size));
-            Program.chatMsgCollection.Add(SerializeUtilities.ChatMsgDeserializer(Encoding.UTF8.GetString(buffer, (int)offset, (int)size)));
+            ChatMsg model;
+            if (SerializeUtilities.ChatMsgDeserializer(out model, Encoding.UTF8.GetString(buffer, (int)offset, (int)size)))
+            {
+                Program.chatMsgCollection.Add(model);
+            }
         }
 
         protected override void OnError(SocketError error)

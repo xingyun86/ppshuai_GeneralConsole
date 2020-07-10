@@ -115,7 +115,11 @@ namespace TcpChatServer
             string message = System.Text.Encoding.UTF8.GetString(buffer, (int)offset, (int)size);
             Console.WriteLine("Incoming: " + message);
 
-            Program.chatMsgCollection.Add(SerializeUtilities.ChatMsgDeserializer(message));
+            ChatMsg model;
+            if (SerializeUtilities.ChatMsgDeserializer(out model, message))
+            {
+                Program.chatMsgCollection.Add(model);
+            }
 
             // Multicast message to all connected sessions
             Server.Multicast(message);
